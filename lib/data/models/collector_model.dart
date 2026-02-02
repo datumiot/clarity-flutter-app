@@ -11,6 +11,9 @@ class Collector {
   final double? storageFree;
   final DateTime? lastSeen;
   final DateTime createdAt;
+  final bool autoUpdateEnabled;
+  final String? updateStatus;
+  final String? targetVersion;
 
   const Collector({
     required this.id,
@@ -25,6 +28,9 @@ class Collector {
     this.storageFree,
     this.lastSeen,
     required this.createdAt,
+    this.autoUpdateEnabled = false,
+    this.updateStatus,
+    this.targetVersion,
   });
 
   bool get isOnline => status == 'online';
@@ -44,5 +50,8 @@ class Collector {
             ? DateTime.parse(json['last_seen'] as String)
             : null,
         createdAt: DateTime.parse(json['created_at'] as String),
+        autoUpdateEnabled: json['auto_update_enabled'] as bool? ?? false,
+        updateStatus: json['update_status'] as String?,
+        targetVersion: json['target_version'] as String?,
       );
 }

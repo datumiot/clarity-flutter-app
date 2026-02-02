@@ -95,6 +95,39 @@ class _DeviceDetailScreenState extends ConsumerState<DeviceDetailScreen> {
                       ),
                     ),
                     const SizedBox(height: 16),
+                    // Firmware card
+                    Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Firmware',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium),
+                                TextButton.icon(
+                                  icon: const Icon(Icons.system_update, size: 18),
+                                  label: const Text('Manage'),
+                                  onPressed: () => context.push(
+                                      '/device/${widget.collectorId}/updates'),
+                                ),
+                              ],
+                            ),
+                            _InfoRow('Version',
+                                device.firmwareVersion ?? 'Unknown'),
+                            _InfoRow('Auto Update',
+                                device.autoUpdateEnabled ? 'ON' : 'OFF'),
+                            if (device.updateStatus != null)
+                              _InfoRow('Status', device.updateStatus!),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
                     // Meters
                     Text('Meters',
                         style: Theme.of(context).textTheme.titleMedium),

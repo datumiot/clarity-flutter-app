@@ -148,4 +148,33 @@ class ApiClient {
   // FCM Token
   Future<Response> registerFcmToken(String token, Map<String, dynamic> deviceInfo) =>
       dio.post('/users/devices', data: {'fcm_token': token, ...deviceInfo});
+
+  // OTA Updates
+  Future<Response> getCollectorUpdates(int collectorId) =>
+      dio.get('/collectors/$collectorId/updates');
+
+  Future<Response> triggerUpdate(int collectorId, String version) =>
+      dio.post('/collectors/$collectorId/updates/trigger',
+          data: {'version': version});
+
+  Future<Response> toggleAutoUpdate(int collectorId, bool enabled) =>
+      dio.patch('/collectors/$collectorId/updates/auto-update',
+          data: {'enabled': enabled});
+
+  Future<Response> getUpdateHistory(int collectorId) =>
+      dio.get('/collectors/$collectorId/updates/history');
+
+  Future<Response> getRestorePoints(int collectorId) =>
+      dio.get('/collectors/$collectorId/restore-points');
+
+  Future<Response> triggerRollback(int collectorId, int restorePointId) =>
+      dio.post('/collectors/$collectorId/restore-points/$restorePointId/rollback');
+
+  Future<Response> deleteRestorePoint(int collectorId, int restorePointId) =>
+      dio.delete('/collectors/$collectorId/restore-points/$restorePointId');
+
+  Future<Response> listFirmwareReleases() => dio.get('/firmware/releases');
+
+  Future<Response> syncFirmwareReleases() =>
+      dio.post('/firmware/releases/sync');
 }

@@ -11,6 +11,7 @@ import '../screens/device_detail/device_detail_screen.dart';
 import '../screens/meter_detail/meter_detail_screen.dart';
 import '../screens/diagnostics/diagnostics_screen.dart';
 import '../screens/settings/settings_screen.dart';
+import '../screens/updates/update_management_screen.dart';
 import '../widgets/main_shell.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
@@ -69,6 +70,13 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (context, state) {
           final id = int.parse(state.pathParameters['id']!);
           return MeterDetailScreen(meterId: id);
+        },
+      ),
+      GoRoute(
+        path: '/device/:id/updates',
+        builder: (context, state) {
+          final id = int.parse(state.pathParameters['id']!);
+          return UpdateManagementScreen(collectorId: id);
         },
       ),
       GoRoute(
