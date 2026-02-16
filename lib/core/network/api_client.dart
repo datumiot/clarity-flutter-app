@@ -66,7 +66,7 @@ class ApiClient {
       final response = await Dio(BaseOptions(
         baseUrl: ApiConstants.baseUrl,
         headers: {'Content-Type': 'application/json'},
-      )).post('/auth/refresh', data: {'refresh_token': _refreshToken});
+      )).post('/auth/mobile/refresh', data: {'refresh_token': _refreshToken});
 
       final tokens = response.data;
       await storeTokens(
@@ -82,7 +82,7 @@ class ApiClient {
 
   // Auth
   Future<Response> login(String email, String password) =>
-      dio.post('/auth/login', data: {'email': email, 'password': password});
+      dio.post('/auth/mobile/login', data: {'email': email, 'password': password});
 
   Future<Response> signup(Map<String, dynamic> data) =>
       dio.post('/auth/signup', data: data);

@@ -19,11 +19,11 @@ class User {
           .toUpperCase();
 
   factory User.fromJson(Map<String, dynamic> json) => User(
-        id: json['id'] as int,
+        id: json['id'] as int? ?? json['user_id'] as int,
         email: json['email'] as String,
         firstName: json['first_name'] as String? ?? '',
-        lastName: json['last_name'] as String? ?? '',
-        role: json['role'] as String? ?? 'user',
+        lastName: json['last_name'] as String? ?? json['surname'] as String? ?? '',
+        role: json['role'] as String? ?? json['frontend_role'] as String? ?? 'user',
       );
 
   Map<String, dynamic> toJson() => {
