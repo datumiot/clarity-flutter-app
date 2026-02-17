@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/network/api_client.dart';
 import '../../data/models/user_model.dart';
@@ -116,8 +117,31 @@ class AuthNotifier extends StateNotifier<AuthState> {
   void clearError() => state = state.copyWith(error: null);
 
   String _extractError(dynamic e) {
-    if (e is Exception) {
-      return e.toString().replaceFirst('Exception: ', '');
+    if (e is DioException) {
+      final statusCode = e.response?.statusCode;
+      final data = e.response?.data;
+
+      // Extract backend error message if available
+      if (data is Map<String, dynamic> && data.containsKey('detail')) {
+        final detail = data['detail'];
+        if (detail is String) return detail;
+      }
+
+      // Friendly messages for common status codes
+      switch (statusCode) {
+        case 401:
+          return 'Incorrect email or password';
+        case 403:
+          return 'Your account has been disabled';
+        case 422:
+          return 'Please enter a valid email and password';
+        case 429:
+          return 'Too many login attempts. Please try again later';
+        case null:
+          return 'Unable to connect to the server. Please check your internet connection';
+        default:
+          return 'Something went wrong. Please try again';
+      }
     }
     return 'An unexpected error occurred';
   }
